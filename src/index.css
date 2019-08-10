@@ -1,13 +1,93 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+* {
+    font-family: sans-serif;
+    line-height: 1;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+div {
+}
+
+.scoreBox {
+    display: inline-block;
+    margin-bottom: 100px;
+    /*
+    border: 2px solid grey;
+    */
+}
+
+.playerName {
+}
+
+.scoreBox > div {
+    display: inline-block;
+}
+
+.scoreBox > div:not(.playerName) {
+    display: inline-block;
+    /*
+    border-left: 2px solid grey;
+    */
+}
+
+.scoreBox > div > div {
+    padding: 5px;
+    min-width: 20px;
+}
+
+.scoreBox > div > .yellow {
+    /*
+    border-bottom: 2px solid grey;
+    */
+}
+
+.gameNum, .side {
+    text-align: center;
+    border-top: 2px solid grey;
+    border-left: 2px solid grey;
+}
+
+.swapped > .black, :not(.swapped) > .yellow {
+    background: #ffff55;
+    color: black;
+}
+
+.swapped > .yellow, :not(.swapped) > .black {
+    background: #dddddd;
+    color: black;
+}
+
+.deleteGame {
+    margin-top: 100px;
+    padding: 1px;
+    position: absolute;
+}
+
+
+.scoreControl {
+    margin-top: 40px;
+    padding: 1px;
+    position: absolute;
+    left: 10px;
+}
+
+.scoreControl button {
+    padding: 0;
+}
+
+.scoreBox > :not(:last-child) .scoreControl {
+    display: none;
+}
+
+.playerName.yellow, .playerName.black  {
+    background: white;
+    color: black;
+    border-top: 2px solid grey;
+    border-left: 2px solid grey;
+}
+
+.playerName.black, .side.black {
+    border-bottom: 2px solid grey;
+}
+
+.scoreBox > :last-child > div:not(.dummy):not(.scoreControl) {
+    border-right: 2px solid grey;
 }
