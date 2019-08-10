@@ -91,3 +91,7 @@ div {
 .scoreBox > :last-child > div:not(.dummy):not(.scoreControl) {
     border-right: 2px solid grey;
 }
+
+.createMatch {
+    margin-bottom: 10px;
+}

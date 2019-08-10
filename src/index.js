@@ -319,6 +319,27 @@ function Matches(props) {
             match {
                 id
                 name
+                top {
+                    id
+                    name
+                }
+                bottom {
+                    id
+                    name
+                }
+                games {
+                    id
+                    name
+                    swapped
+                    yellow {
+                        id
+                        points
+                    }
+                    black {
+                        id
+                        points
+                    }
+                }
             }
         }
     `);
@@ -327,21 +348,89 @@ function Matches(props) {
         console.log(error);
     }
 
+    const [createMatch] = useMutation(gql`
+        mutation createMatch($name: String!) {
+            createMatch(input: {name: $name}) {
+                error {
+                    code
+                    message
+                }
+                result {
+                    id  
+                    name
+                    top {
+                        id
+                        name
+                    }
+                    bottom {
+                        id
+                        name
+                    }
+                    games {
+                        id
+                        name
+                        swapped
+                        yellow {
+                            id
+                            points
+                        }
+                        black {
+                            id
+                            points
+                        }
+                    }
+                }
+            }
+        }
+    `);
+
+    const [matchName, setMatchName] = useState('');
+
+    const [deleteMatch, deleteMatchPayload] = useMutation(gql`
+        mutation deleetMatch($id: ID!) {
+            deleteMatch(input: {id: $id}) {
+                error {
+                    code
+                    message
+                }
+                result {
+                    id  
+                }
+            }
+        }
+    `);
+    const delData = deleteMatchPayload.data;
+    if (delData) {
+        const match = delData.deleteMatch.result;
+        const index = matches.map(x => x.id).indexOf(match.id);
+        if (index > -1)
+            matches.splice(index, 1);
+    }
+
     if (!loading) {
         const match = data.match;
         const old = matches.filter(x => x.id === match.id)[0];
         if (old === undefined) {
             console.log('add');
-            matches.push(match);
+            matches.unshift(match);
         } else {
             console.log('update');
             Object.assign(old, match);
         }
     }
 
-    return matches.map(match => (
-        <Match allPlayers={props.allPlayers} key={match.id} match={match} />
-    ));
+    return (
+        <React.Fragment>
+            {/*<input type="text" onChange={e => setMatchName(e.target.value)} />*/}
+            <button className="createMatch" onClick={e => createMatch({variables: {name: matchName}})}>create match</button>
+            {matches.map(match => (
+                <React.Fragment key={match.id}>
+                    <button onClick={e => deleteMatch({variables: {id: match.id}})}>delete match</button>
+                    <Match allPlayers={props.allPlayers} key={match.id} match={match} />
+                </React.Fragment>
+            ))}
+        </React.Fragment>
+    );
 }
 
 function Players(props) {
